@@ -163,10 +163,10 @@
 				return sb.createEdgeTemplateFromCells([edge], 160, 0, 'Association with Multiplicity');
 			}),
 
-			this.createVertexTemplateEntry('ellipse;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;fillColor=strokeColor',
-					10, 10, '', 'And Junction', null, null, this.getTagsForStencil(gn, '', dt + 'and junction').join(' ')),
-			this.createVertexTemplateEntry('ellipse;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;fillColor=#ffffff',
-					10, 10, '', 'Or Junction', null, null, this.getTagsForStencil(gn, '', dt + 'or junction').join(' '))
+			this.createVertexTemplateEntry('archimate4Junction=and;ellipse;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;fillColor=strokeColor',
+					30, 30, '', 'And Junction', null, null, this.getTagsForStencil(gn, '', dt + 'and junction').join(' ')),
+			this.createVertexTemplateEntry('archimate4Junction=or;ellipse;html=1;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;fillColor=#ffffff',
+					30, 30, '', 'Or Junction', null, null, this.getTagsForStencil(gn, '', dt + 'or junction').join(' '))
 		];
 
 		this.addPalette('archimate4Relationships and Junctions', 'ArchiMate 4 / Relationships and Junctions', false, mxUtils.bind(this, function(content)
@@ -181,6 +181,7 @@
 	Sidebar.prototype.addArchimate4MotivationPalette = function()
 	{
 		var am = 'html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#D1BADC;shape=mxgraph.archimate4.';
+		var amMarker = 'archimate4=1;';
 
 		// Space savers
 		var sb = this;
@@ -222,11 +223,11 @@
 					w * 70, h * 35, '', 'Requirement', null, null, this.getTagsForStencil(gn, '', dt + 'requirement').join(' ')),
 			this.createVertexTemplateEntry(am + 'element;appType=meaning;archiType=oct;archiDomain=motivation;',
 					w * 150, h * 75, 'Meaning', 'Meaning', null, null, this.getTagsForStencil(gn, '', dt + 'meaning').join(' ')),
-			this.createVertexTemplateEntry('shape=mxgraph.basic.cloud_callout;html=1;whiteSpace=wrap;fillColor=#D1BADC;',
+			this.createVertexTemplateEntry(amMarker + 'shape=mxgraph.basic.cloud_callout;html=1;whiteSpace=wrap;fillColor=#D1BADC;',
 					w * 70, h * 45, '', 'Meaning', null, null, this.getTagsForStencil(gn, '', dt + 'meaning').join(' ')),
 			this.createVertexTemplateEntry(am + 'element;appType=amValue;archiType=oct;archiDomain=motivation;',
 					w * 150, h * 75, 'Value', 'Value', null, null, this.getTagsForStencil(gn, '', dt + 'value').join(' ')),
-			this.createVertexTemplateEntry('shape=ellipse;html=1;whiteSpace=wrap;fillColor=#D1BADC;',
+			this.createVertexTemplateEntry(amMarker + 'shape=ellipse;html=1;whiteSpace=wrap;fillColor=#D1BADC;',
 					w * 70, h * 35, '', 'Value', null, null, this.getTagsForStencil(gn, '', dt + 'value').join(' '))
 		];
 
@@ -477,7 +478,7 @@
 					w * 70, h * 30, '', 'Distribution Network', null, null, this.getTagsForStencil(gn, '', dt + 'distribution network').join(' ')),
 			this.createVertexTemplateEntry(am + 'element;appType=artifact;archiType=square;archiDomain=technology;',
 					w * 150, h * 75, 'Artifact', 'Artifact', null, null, this.getTagsForStencil(gn, '', dt + 'artifact').join(' ')),
-			this.createVertexTemplateEntry('html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#BCD9AE;shape=note;size=14;',
+			this.createVertexTemplateEntry('archimate4=1;html=1;outlineConnect=0;whiteSpace=wrap;fillColor=#BCD9AE;shape=note;size=14;',
 					w * 70, h * 35, '', 'Artifact', null, null, this.getTagsForStencil(gn, '', dt + 'artifact').join(' ')),
 			this.createVertexTemplateEntry(am + 'element;appType=material;archiType=square;archiDomain=technology;',
 					w * 150, h * 75, 'Material', 'Material', null, null, this.getTagsForStencil(gn, '', dt + 'material').join(' ')),

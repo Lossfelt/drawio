@@ -68,8 +68,10 @@ if (window.location.hash != null && window.location.hash.substring(0, 2) == '#P'
 }
 
 // Global variable for desktop
-var mxIsElectron = navigator.userAgent != null && navigator.userAgent.toLowerCase().indexOf(' electron/') > -1 && 
-                    navigator.userAgent.indexOf(' draw.io/') > -1;
+var mxUserAgent = (navigator.userAgent != null) ? navigator.userAgent.toLowerCase() : '';
+var mxIsElectron = mxUserAgent.indexOf(' electron/') > -1 &&
+                    (mxUserAgent.indexOf(' draw.io/') > -1 ||
+                    mxUserAgent.indexOf(' draw.io archimate4-fork/') > -1);
 
 // Redirects page if required
 if (urlParams['dev'] != '1')
@@ -305,8 +307,8 @@ if (urlParams['dev'] == '1')
     // Electron
     if (mxIsElectron)
     {
-        mxscript('js/desktop/DesktopLibrary.js');
-        mxscript('js/desktop/ElectronApp.js');
+        mxscript('js/diagramly/DesktopLibrary.js');
+        mxscript('js/diagramly/ElectronApp.js');
 
         // ELK, Mermaid and PlantUML are loaded by Devel.js above. Do not
         // load js/elk/drawio-elk.min.js again here: re-running its footer
@@ -341,31 +343,46 @@ else
                     {
                         mxscript('js/diagramly/ElectronApp.js', function()
                         {
-                            mxscript('js/extensions.min.js', function()
+                            var loadExtensions = function()
                             {
-                                mxscript('js/stencils.min.js', function()
+                                mxscript('js/extensions.min.js', function()
                                 {
-                                    mxscript('js/shapes-14-6-5.min.js', function()
+                                    mxscript('js/stencils.min.js', function()
                                     {
-                                        // ELK and Mermaid ship inside extensions.min.js
-                                        // above (elk bundle, then the ElkLayout editor
-                                        // statics, then mermaid). Loading
-                                        // js/elk/drawio-elk.min.js again would re-run its
-                                        // footer (var ElkLayout = ELK.ElkLayout) and swap
-                                        // in a bare class without the statics, breaking
-                                        // Arrange > Layout with "ElkLayout.runWithDialog
-                                        // is not a function" [jgraph/drawio-desktop#2471].
-                                        // Only PlantUML is not in extensions.min.js; it
-                                        // is preloaded here and EditorUi.loadPlantUml
-                                        // skips its own load once mxPlantUmlToDrawio is
-                                        // defined.
-                                        mxscript('js/plantuml/drawio-plantuml.min.js', function()
+                                        mxscript('js/shapes-14-6-5.min.js', function()
                                         {
-                                            mxscript('js/PostConfig.js');
+                                            // ELK and Mermaid ship inside extensions.min.js
+                                            // above (elk bundle, then the ElkLayout editor
+                                            // statics, then mermaid). Loading
+                                            // js/elk/drawio-elk.min.js again would re-run its
+                                            // footer (var ElkLayout = ELK.ElkLayout) and swap
+                                            // in a bare class without the statics, breaking
+                                            // Arrange > Layout with "ElkLayout.runWithDialog
+                                            // is not a function" [jgraph/drawio-desktop#2471].
+                                            // Only PlantUML is not in extensions.min.js; it
+                                            // is preloaded here and EditorUi.loadPlantUml
+                                            // skips its own load once mxPlantUmlToDrawio is
+                                            // defined.
+                                            mxscript('js/plantuml/drawio-plantuml.min.js', function()
+                                            {
+                                                mxscript('js/PostConfig.js');
+                                            });
                                         });
                                     });
                                 });
-                            });
+                            };
+
+                            if (urlParams['archimate4Fork'] == '1')
+                            {
+                                mxscript('js/diagramly/sidebar/Sidebar-ArchiMate4.js', function()
+                                {
+                                    mxscript('js/diagramly/ArchiMateQuickConnect.js', loadExtensions);
+                                });
+                            }
+                            else
+                            {
+                                loadExtensions();
+                            }
                         });
                     });
                 }

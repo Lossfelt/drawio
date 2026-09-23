@@ -206,6 +206,20 @@ mxscript(drawDevUrl + 'js/diagramly/EmbedFile.js');
 mxscript(drawDevUrl + 'js/diagramly/Dialogs.js');
 mxscript(drawDevUrl + 'js/diagramly/Editor.js');
 mxscript(drawDevUrl + 'js/diagramly/EditorUi.js');
+
+// Dynamic library loading uses synchronous XHR, which Electron blocks from
+// the file: origin. Use the same bundled stencil and shape registrations as
+// the production Desktop app. This covers all built-in libraries, including
+// ER endpoint markers, BPMN and Flowchart, rather than maintaining a growing
+// list of individual source files to preload.
+//
+// extensions.min.js is deliberately not loaded here. The development loader
+// has already loaded its unminified equivalents, and loading it again can
+// overwrite editor extension statics.
+mxscript(drawDevUrl + 'js/stencils.min.js');
+mxscript(drawDevUrl + 'js/shapes-14-6-5.min.js');
+
+mxscript(drawDevUrl + 'js/diagramly/ArchiMateQuickConnect.js');
 mxscript(drawDevUrl + 'js/diagramly/ConfigEditor.js');
 mxscript(drawDevUrl + 'js/diagramly/DiffSync.js');
 mxscript(drawDevUrl + 'js/diagramly/Settings.js');
@@ -292,7 +306,6 @@ mxscript(drawDevUrl + 'js/diagramly/LibavoidRouting.js');
 
 // Vsdx/vssx support
 mxscript(drawDevUrl + 'js/diagramly/emf/emf-svg.js');
-mxscript(drawDevUrl + 'js/diagramly/vsdx/mxVsdxCanvas2D.js');
 mxscript(drawDevUrl + 'js/diagramly/vsdx/bmpDecoder.js');
 mxscript(drawDevUrl + 'js/diagramly/vsdx/importer.js');
 mxscript(drawDevUrl + 'js/jszip/jszip.min.js');
