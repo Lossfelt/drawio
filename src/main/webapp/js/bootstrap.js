@@ -376,7 +376,10 @@ else
                             {
                                 mxscript('js/diagramly/sidebar/Sidebar-ArchiMate4.js', function()
                                 {
-                                    mxscript('js/diagramly/ArchiMateQuickConnect.js', loadExtensions);
+                                    mxscript('js/diagramly/ArchiMateQuickConnect.js', function()
+                                    {
+                                        mxscript('js/diagramly/ArchiMateKeyboardShortcuts.js', loadExtensions);
+                                    });
                                 });
                             }
                             else

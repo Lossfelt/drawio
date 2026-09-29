@@ -220,6 +220,7 @@ mxscript(drawDevUrl + 'js/stencils.min.js');
 mxscript(drawDevUrl + 'js/shapes-14-6-5.min.js');
 
 mxscript(drawDevUrl + 'js/diagramly/ArchiMateQuickConnect.js');
+mxscript(drawDevUrl + 'js/diagramly/ArchiMateKeyboardShortcuts.js');
 mxscript(drawDevUrl + 'js/diagramly/ConfigEditor.js');
 mxscript(drawDevUrl + 'js/diagramly/DiffSync.js');
 mxscript(drawDevUrl + 'js/diagramly/Settings.js');
