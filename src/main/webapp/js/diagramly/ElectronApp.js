@@ -11,6 +11,10 @@ EditorUi.draftSaveDelay = 5000;
 //Disables eval for JS (uses shapes-14-6-5.min.js)
 mxStencilRegistry.allowEval = false;
 
+// Keep connected edges attached when moving a selection. Endpoint handles
+// still allow explicit disconnection and reconnection.
+Graph.prototype.disconnectOnMove = false;
+
 (async function()
 {
 	let requestSync = async function(msg)
