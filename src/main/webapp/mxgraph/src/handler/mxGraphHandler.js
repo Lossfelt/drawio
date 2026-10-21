@@ -1567,7 +1567,8 @@ mxGraphHandler.prototype.updateLivePreview = function(dx, dy)
 		}
 		else
 		{
-			// Redraws connected edges
+			// Keep stationary terminals attached when moves preserve connections.
+			// Cloning retains the original detached preview.
 			var s = this.graph.view.scale;
 			
 			for (var i = 0; i < states.length; i++)
@@ -1599,7 +1600,8 @@ mxGraphHandler.prototype.updateLivePreview = function(dx, dy)
 
 					if (pts != null)
 					{
-						if (source == null || !this.isCellMoving(source.cell))
+						if (source == null || ((this.cloning || this.graph.isDisconnectOnMove()) &&
+							!this.isCellMoving(source.cell)))
 						{
 							// Uses the fixed point from the geometry for a dangling end
 							// so that the delta is not applied on top of a route that a
@@ -1616,7 +1618,8 @@ mxGraphHandler.prototype.updateLivePreview = function(dx, dy)
 								this.graph.getConnectionConstraint(state, source, true));
 						}
 
-						if (target == null || !this.isCellMoving(target.cell))
+						if (target == null || ((this.cloning || this.graph.isDisconnectOnMove()) &&
+							!this.isCellMoving(target.cell)))
 						{
 							var ptn = (target == null) ? state.view.getFixedTerminalPoint(
 								state, null, false, null) : null;
