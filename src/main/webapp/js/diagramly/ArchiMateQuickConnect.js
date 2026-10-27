@@ -12,20 +12,20 @@
 (function()
 {
 	var relations = [
-		{id: 'aggregation', label: 'Aggregation', style: 'html=1;startArrow=diamondThin;startFill=0;edgeStyle=elbowEdgeStyle;elbow=vertical;startSize=10;endArrow=none;endFill=0;'},
-		{id: 'composition', label: 'Composition', style: 'html=1;startArrow=diamondThin;startFill=1;edgeStyle=elbowEdgeStyle;elbow=vertical;startSize=10;endArrow=none;endFill=0;'},
-		{id: 'assignment', label: 'Assignment', style: 'endArrow=block;html=1;endFill=1;startArrow=oval;startFill=1;edgeStyle=elbowEdgeStyle;elbow=vertical;'},
-		{id: 'realization', label: 'Realization', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=block;elbow=vertical;endFill=0;dashed=1;'},
-		{id: 'serving', label: 'Serving', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=open;elbow=vertical;endFill=1;'},
-		{id: 'accessUnspecified', label: 'Access (Unspecified)', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=none;elbow=vertical;dashed=1;startFill=0;dashPattern=1 4;'},
-		{id: 'access', label: 'Access (Read or Write)', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=open;elbow=vertical;endFill=0;dashed=1;dashPattern=1 4;'},
-		{id: 'accessReadWrite', label: 'Access (Read/Write)', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=open;elbow=vertical;endFill=0;dashed=1;startArrow=open;startFill=0;dashPattern=1 4;'},
-		{id: 'influence', label: 'Influence', value: '+/-', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=open;elbow=vertical;endFill=0;dashed=1;dashPattern=6 4;'},
-		{id: 'association', label: 'Association', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=none;elbow=vertical;'},
-		{id: 'directedAssociation', label: 'Association (Directed)', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=openAsync;elbow=vertical;rounded=0;endFill=0;'},
-		{id: 'triggering', label: 'Triggering', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=block;dashed=0;elbow=vertical;endFill=1;'},
-		{id: 'flow', label: 'Flow', style: 'edgeStyle=elbowEdgeStyle;html=1;endArrow=block;dashed=1;elbow=vertical;endFill=1;dashPattern=6 4;'},
-		{id: 'specialization', label: 'Specialization', style: 'endArrow=block;html=1;endFill=0;edgeStyle=elbowEdgeStyle;elbow=vertical;'}
+		{id: 'aggregation', label: 'Aggregation', style: 'html=1;startArrow=diamondThin;startFill=0;edgeStyle=orthogonalEdgeStyle;startSize=10;endArrow=none;endFill=0;'},
+		{id: 'composition', label: 'Composition', style: 'html=1;startArrow=diamondThin;startFill=1;edgeStyle=orthogonalEdgeStyle;startSize=10;endArrow=none;endFill=0;'},
+		{id: 'assignment', label: 'Assignment', style: 'endArrow=block;html=1;endFill=1;startArrow=oval;startFill=1;edgeStyle=orthogonalEdgeStyle;'},
+		{id: 'realization', label: 'Realization', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;dashed=1;'},
+		{id: 'serving', label: 'Serving', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=1;'},
+		{id: 'accessUnspecified', label: 'Access (Unspecified)', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=none;dashed=1;startFill=0;dashPattern=1 4;'},
+		{id: 'access', label: 'Access (Read or Write)', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;dashPattern=1 4;'},
+		{id: 'accessReadWrite', label: 'Access (Read/Write)', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;startArrow=open;startFill=0;dashPattern=1 4;'},
+		{id: 'influence', label: 'Influence', value: '+/-', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;dashPattern=6 4;'},
+		{id: 'association', label: 'Association', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=none;'},
+		{id: 'directedAssociation', label: 'Association (Directed)', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=openAsync;rounded=0;endFill=0;'},
+		{id: 'triggering', label: 'Triggering', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;dashed=0;endFill=1;'},
+		{id: 'flow', label: 'Flow', style: 'edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;dashed=1;endFill=1;dashPattern=6 4;'},
+		{id: 'specialization', label: 'Specialization', style: 'endArrow=block;html=1;endFill=0;edgeStyle=orthogonalEdgeStyle;'}
 	];
 
 	function getCellStyleValue(graph, cell, key, defaultValue)
