@@ -11,6 +11,10 @@
  */
 (function()
 {
+	// Gives time to reach the blue hover arrow before the shape picker opens
+	// and possibly covers it when space on screen is limited (default 300ms)
+	Editor.shapePickerHoverDelay = 1000;
+
 	var relations = [
 		{id: 'aggregation', label: 'Aggregation', style: 'html=1;startArrow=diamondThin;startFill=0;edgeStyle=orthogonalEdgeStyle;startSize=10;endArrow=none;endFill=0;'},
 		{id: 'composition', label: 'Composition', style: 'html=1;startArrow=diamondThin;startFill=1;edgeStyle=orthogonalEdgeStyle;startSize=10;endArrow=none;endFill=0;'},
@@ -646,39 +650,69 @@
 			return centerShapePicker.apply(this, arguments);
 		}
 
-		var pickerRect = div.getBoundingClientRect();
+		var pos = placeArchimate4ShapePicker(this.editor.graph.container,
+			div.getBoundingClientRect(), rect, x, y, dir);
+		div.style.left = pos.x + 'px';
+		div.style.top = pos.y + 'px';
+	};
 
-		if (dir == mxConstants.DIRECTION_NORTH)
-		{
-			x -= pickerRect.width / 2 - 10;
-			y -= pickerRect.height + 6;
-		}
-		else if (dir == mxConstants.DIRECTION_SOUTH)
-		{
-			x -= pickerRect.width / 2 - 10;
-			y += rect.height + 6;
-		}
-		else if (dir == mxConstants.DIRECTION_WEST)
-		{
-			x -= pickerRect.width + 6;
-			y -= pickerRect.height / 2 - 10;
-		}
-		else if (dir == mxConstants.DIRECTION_EAST)
-		{
-			x += rect.width + 6;
-			y -= pickerRect.height / 2 - 10;
-		}
+	// The picker grid is large, so clamping it into the visible area could
+	// move it on top of the hovered arrow. Tries the arrow direction first,
+	// then the perpendicular sides, then the opposite side, and uses the
+	// first position that leaves the arrow uncovered.
+	function placeArchimate4ShapePicker(container, pickerRect, arrowRect, ax, ay, dir)
+	{
+		var gap = 6;
+		var opposite = {};
+		opposite[mxConstants.DIRECTION_NORTH] = mxConstants.DIRECTION_SOUTH;
+		opposite[mxConstants.DIRECTION_SOUTH] = mxConstants.DIRECTION_NORTH;
+		opposite[mxConstants.DIRECTION_EAST] = mxConstants.DIRECTION_WEST;
+		opposite[mxConstants.DIRECTION_WEST] = mxConstants.DIRECTION_EAST;
+		var vertical = dir == mxConstants.DIRECTION_NORTH || dir == mxConstants.DIRECTION_SOUTH;
+		var candidates = [dir].concat(vertical ?
+			[mxConstants.DIRECTION_EAST, mxConstants.DIRECTION_WEST] :
+			[mxConstants.DIRECTION_NORTH, mxConstants.DIRECTION_SOUTH], [opposite[dir]]);
 
-		var container = this.editor.graph.container;
 		var minX = container.scrollLeft + 22;
 		var minY = container.scrollTop + 22;
-		var maxX = container.scrollLeft + container.offsetWidth - pickerRect.width - 22;
-		var maxY = container.scrollTop + container.offsetHeight - pickerRect.height - 22;
-		x = Math.max(minX, Math.min(x, Math.max(minX, maxX)));
-		y = Math.max(minY, Math.min(y, Math.max(minY, maxY)));
+		var maxX = Math.max(minX, container.scrollLeft + container.offsetWidth - pickerRect.width - 22);
+		var maxY = Math.max(minY, container.scrollTop + container.offsetHeight - pickerRect.height - 22);
+		var first = null;
 
-		div.style.left = x + 'px';
-		div.style.top = y + 'px';
+		for (var i = 0; i < candidates.length; i++)
+		{
+			var x = ax;
+			var y = ay;
+			var d = candidates[i];
+
+			if (d == mxConstants.DIRECTION_NORTH || d == mxConstants.DIRECTION_SOUTH)
+			{
+				x -= pickerRect.width / 2 - arrowRect.width / 2;
+				y = (d == mxConstants.DIRECTION_NORTH) ? y - pickerRect.height - gap :
+					y + arrowRect.height + gap;
+			}
+			else
+			{
+				y -= pickerRect.height / 2 - arrowRect.height / 2;
+				x = (d == mxConstants.DIRECTION_WEST) ? x - pickerRect.width - gap :
+					x + arrowRect.width + gap;
+			}
+
+			x = Math.max(minX, Math.min(x, maxX));
+			y = Math.max(minY, Math.min(y, maxY));
+
+			var covers = x < ax + arrowRect.width && x + pickerRect.width > ax &&
+				y < ay + arrowRect.height && y + pickerRect.height > ay;
+
+			if (!covers)
+			{
+				return {x: x, y: y};
+			}
+
+			first = first || {x: x, y: y};
+		}
+
+		return first;
 	};
 
 	EditorUi.prototype.createHoverIcons = function()
